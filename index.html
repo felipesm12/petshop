@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CRUD Petshop - Senai</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+  <div class="container">
+    <header class="topo">
+     <h1> <i class="fa-solid fa-paw"></i>  Petshop</h1>
+      <p class="subtitulo">Projeto Java spring + front-end
+      </p>
+    </header>
+
+    <section class="card">
+      <label for="entidade">Escolha a entidade</label>
+      <select id="entidade">
+        <option value="clientes">Cliente</option>
+        <option value="pets">Pet</option>
+        <option value="servicos">Serviço</option>
+        <option value="profissionais">Profissional</option>
+        <option value="agendamentos">Agendamento</option>
+      </select>
+
+      <div class="acoes-topo">
+        <button id="btnListar">Listar todos</button>
+      </div>
+    </section>
+
+    <section class="grid-duplo">
+      <div class="card">
+        <h2>Buscar por ID</h2>
+        <label for="buscarId">ID</label>
+        <input type="number" id="buscarId" placeholder="Digite o ID">
+        <button id="btnBuscarId">Buscar por ID</button>
+      </div>
+
+      <div class="card">
+        <h2 id="tituloBusca">Buscar por Nome</h2>
+        <label for="buscarNome" id="labelBusca">Nome</label>
+        <input type="text" id="buscarNome" placeholder="Digite o termo">
+        <button id="btnBuscarNome">Buscar</button>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Adicionar / Atualizar / Deletar</h2>
+
+      <label for="idRegistro">ID do registro</label>
+      <input
+        type="number"
+        id="idRegistro"
+        placeholder="Para atualizar ou deletar. Ao sair do campo, os dados serão carregados."
+      >
+
+      <div id="formularioDinamico" class="grid-formulario"></div>
+
+      <div class="botoes-formulario">
+        <button id="btnAdicionar">Adicionar</button>
+        <button id="btnAtualizar">Atualizar</button>
+        <button id="btnDeletar" class="btn-danger">Deletar</button>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Tabela de Resultados</h2>
+      <div id="tabelaWrapper" class="tabela-wrapper">
+        <p class="sem-dados">Nenhum dado carregado.</p>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Mensagem</h2>
+      <div id="mensagem" class="mensagem neutra">Aguardando ação...</div>
+    </section>
+
+    <section class="card">
+      <h2>Resultado JSON (debug)</h2>
+      <pre id="resultado">Nenhum dado carregado.</pre>
+    </section>
+
+    <footer class="rodape">
+      Projeto de integração entre front-end e back-end do sistema Petshop Senai 2026
+    </footer>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
