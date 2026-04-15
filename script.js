@@ -1,4 +1,26 @@
-const API_BASE = "http://localhost:8080";
+function detectarApiBase() {
+  const origem = window.location.origin;
+  const protocolo = window.location.protocol;
+  const hostname = window.location.hostname;
+  const porta = window.location.port;
+  const apiSalva = window.localStorage.getItem("petshopApiBase");
+
+  if (apiSalva) {
+    return apiSalva.replace(/\/$/, "");
+  }
+
+  if (protocolo === "file:") {
+    return "http://localhost:8080";
+  }
+
+  if ((hostname === "localhost" || hostname === "127.0.0.1") && porta && porta !== "8080") {
+    return `${window.location.protocol}//${hostname}:8080`;
+  }
+
+  return origem.replace(/\/$/, "");
+}
+
+const API_BASE = detectarApiBase();
 
 const CONFIG = {
   clientes: {
@@ -145,6 +167,18 @@ function mostrarResultado(dados) {
 function mostrarErro(texto) {
   mostrarMensagem(texto, "erro");
   document.getElementById("resultado").textContent = `Erro: ${texto}`;
+}
+
+function normalizarTextoErro(texto) {
+  if (!texto) {
+    return "Erro inesperado ao comunicar com a API.";
+  }
+
+  if (texto.includes("Cannot GET")) {
+    return `A API não foi encontrada em ${API_BASE}. Inicie o Spring Boot na porta 8080 ou ajuste a URL da API no localStorage com a chave "petshopApiBase".`;
+  }
+
+  return texto;
 }
 
 function limparResultado() {
@@ -426,12 +460,12 @@ async function tratarResposta(resposta, mensagemErroPadrao) {
         const json = await resposta.json();
         textoErro = json.erro || JSON.stringify(json);
       } else {
-        textoErro = await resposta.text();
+        textoErro = normalizarTextoErro(await resposta.text());
       }
     } catch (e) {
     }
 
-    throw new Error(textoErro);
+    throw new Error(normalizarTextoErro(textoErro));
   }
 
   if (resposta.status === 204) {
